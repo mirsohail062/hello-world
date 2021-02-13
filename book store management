@@ -1,0 +1,248 @@
+/*FINAL PROJECT USING LINKED LIST*/
+
+#include<iostream>
+#include <string.h>
+#include <fstream>//file stream it support us in the input and out put of files
+#include <sstream> // string stream i used to convert the integer into string value
+using namespace std;
+string check(int);
+int display1();
+int search(int);
+
+struct node{
+    node *prev;  //node pointer previous
+    int data;    //id of book
+    int x,y,sum;     //x == quantity
+    string name,nam,pub;   //y == price
+    node *next; //it stores the value of next linked list
+};
+struct node *start=NULL;//start is a pointer variable at the beginning it should be empty so it is initialized by null,  start contains the data and the address of first node
+node* create_node(){ //we will try to make a node first then saved data in that node
+    node *n = new node;//assigned a new node
+    cout<<"\n\n\n\n";
+    cout<<"\t\t\tENTER BOOK'S ID  : "; //lets ask user to give input data
+    cin>>n->data;                      //to get access the int data, x,y,sum,name,nam and pub we need to use n->data
+    cout<<"\t\t\tENTER BOOK'S NAME: ";
+    cin>>n->name;
+    cout<<"\t\t\tENTER PUBLISHER : ";
+    cin>>n->pub;
+    cout<<"\t\t\tENTER QUANTITY    : ";
+    cin>>n->x;
+    cout<<"\t\t\tENTER PRICE OF EACH BOOK: ";
+    cin>>n->y;
+
+    cout<<"\n\n\t\t\tBOOK ADDED SUCCESSFULLY!\n\n"<<endl;
+    system("pause");
+    system("cls");
+cout<<"\n\n\t\t\tRETURNED TO MANU!";
+    n->next = NULL;
+    n->prev = NULL;
+
+    return n;
+}
+
+void insert_node(){
+    node *temp;          //we use this variable to make stable the start node at the starting address
+    temp = create_node();
+    if(start == NULL){
+    start = temp;
+    }
+    else{
+    node *traverse; //initialize the pointer variable
+    traverse = start;// pointer variable must be equal to starting
+    while(traverse->next != NULL){ // running the loop till pointer variable will be null
+        traverse = traverse->next;// pointer variable will be updated here
+    }
+    traverse->next=temp;
+    temp->prev=traverse;
+}
+}
+
+void display(){
+node *traverse;
+traverse  = start;// traverse points the first node and that is start which has adress of first node so now traverse has adress of first node
+system("cls");
+cout<<"\n\n\t\t\t**********************BOOK STORE*****************************\n\n\n"<<endl;
+cout<<"\n\t\tBOOK'S ID\t"<<"BOOK'S NAME\t"<<"BOOK'S PUBLISHER\t"<<"QUANTITY\t"<<"PRICE ON PER BOOK"<<endl;
+cout<<endl;
+while(traverse!=NULL){
+    cout<<"\t\t"<<traverse->data<<"\t\t";
+    cout<<traverse->name<<"\t";
+    cout<<"\t\t"<<traverse->pub<<"\t";
+    cout<<"\t"<<traverse->x<<"\t";
+    cout<<"   \tRS: "<<traverse->y<<"\n";
+    traverse = traverse->next;
+
+}
+}
+
+void delete_(){
+    node *temp;
+    temp = start;
+    start = start->next;
+    cout<<temp->data<<" has been deleted"<<endl;
+    delete(temp);
+}
+
+void buy(){
+    system("cls");
+    string products[20];
+    int pay=0,no,c=0,price,id,i=1;
+    if(start==NULL) {
+	cout<<"\n\n\t\t\t<<<<There is no items to buy>>>>\n\n";
+        }
+	else{
+        cout<<"\n\n\n\t\tHow many book items you want to buy? ";
+		cin>>no;
+			int count= display1();
+	while (i<=no){
+			struct node *cur=start;
+    int quant,cho;
+	cout<<"\n\n\t\t\tEnter ID of  book's item that you want to buy: ";
+    int id,pos=0;
+	cin>>id;
+	pos=search(id);
+	if(pos<=count){
+		while(cur->data!=id){
+			cur=cur->next;
+		}
+	cout<<"\t\t\tHow many quantities you want: ";
+	cin>>quant;
+	products[c]=cur->name; c++;
+	pay=pay+(cur->y*quant);
+	cur->x=cur->x-quant;
+	i++;
+	}
+	else{
+		cout<<"\n\t\t\t<<<<<<<<<This Book item is not available in our store at this time>>>>\n\n";
+	    }
+}
+	//system("cls");
+cout<<"\n\n\n\t\t\tYou have bought : ";
+for(int i=0;i<no;i++){
+	cout<<products[i]<<",";
+}
+price=pay*(0.95);
+
+	cout<<"\n\n\t\Price of whole quantities : "<<pay;
+    cout<<"\n\t\t with 5% discount: "<<price<<"\n\n\t\tTHANK YOU! FOR SHOPPING \n\n";
+}
+}
+	int search(int id)
+ {
+ 	int count=1;
+ 	struct node *p=start;
+ 	while(p!=NULL)
+ 	{
+ 		if(p->data==id)
+ 		{
+
+ 			break;    }
+ 		else
+ 			count++;
+ 			p=p->next;
+	}
+
+ 	return count;
+ }
+
+int display1(){
+	//	system("cls");
+    int c=0;
+    struct node *p=start;
+    cout<<"\n\n\t\tExisting Books are:\n\n\n";
+    cout<<"\tBook ID\t\t  Book's Name\t\tPublisher\t\tPrice\t\tQuantity\n\n\n";
+    while(p!=NULL)
+		{
+			cout<<"\t"<<p->data<<"\t\t  "<<p->name<<"\t\t\t"<<p->pub<<"\t\t\t"<<p->y<<"\t\t"<<check(p->x)<<"\n";
+			p=p->next;
+			c=c+1;
+		}
+    cout<<"\n\n\nTotal Book in our store is : "<<c<<"\n\n\n";
+    return c;
+}
+
+string check(int quant){
+    int a = quant;
+    stringstream ss;
+    ss << a;
+    string quantity = ss.str();
+    if(quant<=0)
+    return "out of stock!";
+    else
+    return quantity;
+}
+
+
+
+
+void srch(){
+    system("cls");
+    cout<<"\n\n\n\n\n\t\t\t**********************Book STORE*****************************\n\n\n"<<endl;
+    string nam;
+    cout<<"\t\t\t\tEnter Book's Name : ";
+    cin>>nam;
+    int f=0;
+ 	struct node *p=start;
+ 	while(p!=NULL)
+ 	{
+ 		if(nam==p->name)
+ 		{
+ 		    f=1;
+ 			break;
+ 			    }
+
+ 			p=p->next;
+	}
+
+	if(f==1)
+    {
+        	cout<<"\t\t\t\tBook is available"<<endl;
+    }
+    else{
+            cout<<"\n\n\n\t\t\t\tThis Book is not present in our store"<<endl;
+
+    }
+}
+int main(){
+system("color 3E");
+    cout<<"\n\t\t\t\t\t****************************";
+	cout<<"\n\t\t\t\t\t*        BOOK STORE        *";
+	cout<<"\n\t\t\t\t\t****************************";
+
+	cout<<"\n\n\n\n\t\t\t\t\t\tMade By  : ";
+	cout<<"An innocent programmer Amir Abbas ";
+	cout<<endl;
+int option;
+do{
+cout<<endl;
+cout<<"\n\t\t "<<endl;
+cout<<"\t\t\t1 ADD BOOK  "<<endl;
+cout<<"\t\t\t2 DELETE A BOOK  "<<endl;
+cout<<"\t\t\t3 DISPLAY BOOKS DETAIL  "<<endl;
+cout<<"\t\t\t4 BUY BOOKS  "<<endl;
+cout<<"\t\t\t5 SEARCH BOOK  "<<endl;
+cout<<"\t\t\t6 EXIT "<<endl;
+cout<<"\n\n\t\t\tSELECT AN OPTION : ";
+cin>>option;
+cout<<endl;
+system("cls");
+   switch(option){
+   case 1:insert_node();
+          break;
+   case 2: delete_();
+           break;
+   case 3: display();
+           break;
+   case 4:  buy();
+           break;
+   case 5: srch();
+            break;
+   case 6:
+       exit(0);
+    break;
+   }
+
+}while(option != 0);
+return 0;
+}
